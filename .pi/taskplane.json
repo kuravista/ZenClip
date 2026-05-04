@@ -1,0 +1,22 @@
+{
+  "configVersion": 1,
+  "taskRunner": {
+    "project": {
+      "name": "ZenClip Studio",
+      "description": "AI-powered video clipping tool for short-form content"
+    },
+    "paths": {
+      "tasks": "taskplane-tasks"
+    },
+    "testing": {
+      "commands": {}
+    },
+    "taskAreas": {
+      "main": {
+        "path": "taskplane-tasks",
+        "prefix": "TP",
+        "context": "taskplane-tasks/CONTEXT.md"
+      }
+    }
+  }
+}
