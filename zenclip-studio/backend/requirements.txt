@@ -1,0 +1,47 @@
+# ZenClip - Backend Requirements
+
+# Core Framework
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+pydantic>=2.0.0
+
+# HTTP & Networking
+requests>=2.31.0
+httpx>=0.24.0
+
+# Template Engine
+jinja2>=3.1.0
+
+# File Handling
+python-multipart>=0.0.6
+werkzeug>=3.0.0
+
+# System Utilities
+psutil>=5.9.0
+
+# Image Processing
+pillow>=10.0.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9
+
+# Video Processing
+moviepy>=1.0.3
+av>=10.0.0
+
+# Audio Transcription (Optional)
+# faster-whisper>=1.0.0
+# ctranslate2>=4.0.0
+
+# AI/LLM
+openai>=1.0.0
+
+# Scientific Computing
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Face Detection (Optional)
+# opencv-python-headless>=4.8.0
+# mediapipe>=0.10.0
+
+# Logging
+colorama>=0.4.6

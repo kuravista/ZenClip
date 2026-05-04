@@ -1,0 +1,8 @@
+# Backend Recovery Notes
+
+This backend was salvaged from the installed ZenClip package.
+
+Recommended local run strategy:
+- Run from this backend folder
+- Use the original embedded Python from the installed package, or recreate a venv later
+- Keep runtime data separate under .\runtime

@@ -1,0 +1,371 @@
+openapi: 3.0.3
+info:
+  title: ZenClip API
+  version: 1.0.0
+  description: |
+    Target contract for API v1. Not all paths are implemented in the codebase yet;
+    see docs/API_V1_SPEC.md for mapping from legacy endpoints.
+
+servers:
+  - url: http://127.0.0.1:8011
+    description: Local backend (port may vary via CLIP_BACKEND_PORT)
+
+paths:
+  /api/v1/health:
+    get:
+      summary: Health check
+      tags: [System]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/v1/jobs/process:
+    post:
+      summary: Start full process job
+      tags: [Jobs]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                video_file:
+                  type: string
+                  format: binary
+                url:
+                  type: string
+                  format: uri
+                yt_quality:
+                  type: string
+                  default: '720p'
+                num_clips:
+                  type: integer
+                min_duration:
+                  type: string
+                api_provider:
+                  type: string
+                api_key:
+                  type: string
+                add_subtitles:
+                  type: string
+                add_viral_hook:
+                  type: string
+                manual_cut:
+                  type: string
+                manual_segments:
+                  type: string
+                  description: JSON string array of manual segments
+      responses:
+        '200':
+          description: Job created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/jobs/{job_id}:
+    get:
+      summary: Job status
+      tags: [Jobs]
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          description: Current job state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/jobs/{job_id}/cancel:
+    post:
+      summary: Cancel job
+      tags: [Jobs]
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelResponse'
+
+  /api/v1/youtube/download:
+    post:
+      summary: Download remote video (YouTube/URL) as a dedicated job
+      tags: [YouTube]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/YoutubeDownloadRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YoutubeDownloadAcceptedResponse'
+
+  /api/v1/jobs/{job_id}/resume:
+    post:
+      summary: Resume with edited transcript and clips
+      tags: [Jobs]
+      parameters:
+        - $ref: '#/components/parameters/JobId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResumeJobRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResumeJobResponse'
+
+  /api/v1/ai/youtube/preview:
+    post:
+      summary: Extract video metadata without downloading
+      tags: [AI, YouTube]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/YoutubePreviewRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YoutubePreviewResponse'
+
+components:
+  parameters:
+    JobId:
+      name: job_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          example: ok
+        version:
+          type: string
+          example: '1.0.0'
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+
+    JobCreatedResponse:
+      type: object
+      required: [job_id]
+      properties:
+        status:
+          type: string
+          example: success
+          description: Present on modular POST /process success responses
+        job_id:
+          type: string
+          format: uuid
+
+    JobStatusResponse:
+      type: object
+      required: [job_id, status, progress]
+      properties:
+        job_id:
+          type: string
+        status:
+          type: string
+          description: >
+            Pipeline status from JobManager metadata (e.g. queued, preparing,
+            transcribing, analyzing, waiting_review, cutting, complete, error, cancelled).
+        progress:
+          description: >
+            Human-readable progress line when available; otherwise a numeric fallback
+            (0–100) matching modular GET /status/{job_id} and JobRecord.to_status_api_dict.
+          oneOf:
+            - type: string
+            - type: number
+        message:
+          type: string
+          nullable: true
+          description: Progress text (often same as string progress)
+        percentage:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Optional overall percent when metadata includes percentage
+        error:
+          type: string
+          nullable: true
+        clips:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+
+    CancelResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        job_id:
+          type: string
+
+    YoutubeDownloadRequest:
+      type: object
+      required: [url]
+      properties:
+        url:
+          type: string
+          format: uri
+        quality:
+          type: string
+          enum: [best, 1080p, 720p, 480p, audio]
+          default: 720p
+
+    YoutubeDownloadAcceptedResponse:
+      type: object
+      required: [job_id, mode]
+      properties:
+        job_id:
+          type: string
+        mode:
+          type: string
+          example: youtube_download
+
+    WordTiming:
+      type: object
+      properties:
+        text:
+          type: string
+        start:
+          type: number
+        end:
+          type: number
+        probability:
+          type: number
+
+    PhraseTiming:
+      type: object
+      required: [text, start, end]
+      properties:
+        text:
+          type: string
+        start:
+          type: number
+        end:
+          type: number
+        duration:
+          type: number
+        words:
+          type: array
+          items:
+            $ref: '#/components/schemas/WordTiming'
+
+    ClipSegment:
+      type: object
+      required: [start_time, end_time]
+      properties:
+        start_time:
+          type: number
+        end_time:
+          type: number
+        topic:
+          type: string
+        viral_score:
+          type: number
+        reason:
+          type: string
+        hook_heading:
+          type: string
+        hook_subheading:
+          type: string
+        viral_caption:
+          type: string
+        hook_top_text:
+          type: string
+        preset2_content:
+          type: string
+        highlight_map:
+          type: object
+          additionalProperties:
+            type: string
+        emoji_map:
+          type: object
+          additionalProperties:
+            type: string
+
+    ResumeJobRequest:
+      type: object
+      required: [phrase_timings]
+      properties:
+        phrase_timings:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhraseTiming'
+        clips_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClipSegment'
+
+    ResumeJobResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: resumed
+        job_id:
+          type: string
+
+    YoutubePreviewRequest:
+      type: object
+      required: [url]
+      properties:
+        url:
+          type: string
+          format: uri
+
+    YoutubePreviewResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true

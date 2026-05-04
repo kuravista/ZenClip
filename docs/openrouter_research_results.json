@@ -1,0 +1,705 @@
+[
+  {
+    "model": "Gemini 2.5 Flash (free)",
+    "tier": "free",
+    "status": "error",
+    "error": "HTTP 400: {\"error\":{\"message\":\"google/gemini-2.5-flash-preview:free is not a valid model ID\",\"code\":400},\"user_id\":\"user_2wclEmKzoeeJudXLCzmtRpmAASz\"}",
+    "elapsed": 0.706557035446167
+  },
+  {
+    "model": "Gemini 2.5 Pro",
+    "tier": "premium",
+    "status": "success",
+    "elapsed": 63.514090061187744,
+    "tokens_in": 11574,
+    "tokens_out": 6631,
+    "response_len": 6062,
+    "clips_count": 7,
+    "clips_valid": 7,
+    "clips_complete": 7,
+    "score": 100,
+    "total_duration": 387,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 219.61,
+        "end_time": 298.64,
+        "topic": "Fakta Golden Age Anak: Nggak Cuma Otak, Fisik Juga Penting!",
+        "reason": "Membantah mitos populer bahwa 'semua harus diajarkan sebelum 5 tahun' dengan memberikan insight baru tentang kesiapan fisik. Sangat relevan untuk orang tua yang cemas anaknya 'terlambat'.",
+        "viral_caption": "Katanya anak di bawah 5 tahun itu Golden Age, semua harus diajarin sekarang! Bener gak sih? Ternyata ada syaratnya lho... 👀 #parenting #goldenage #radityadika",
+        "hook_heading": "STOP MAKSA ANAK",
+        "hook_subheading": "Golden Age Gak Gitu Konsepnya",
+        "preset2_content": "Anak akan lebih *mudah belajar* hal baru sebelum umur 5 tahun, itu **FAKTA**. Tapi bukan berarti semua hal bisa diajarkan. Ada hal-hal yang butuh *kesiapan fisik*, misalnya ngajarin naik sepeda."
+      },
+      {
+        "start_time": 443.1,
+        "end_time": 497.36,
+        "topic": "Mitos 'Anak Bau Tangan' Dibantah Psikolog",
+        "reason": "Menghancurkan mitos parenting paling umum di Indonesia dengan penjelasan psikologis yang menenangkan. Pengalaman pribadi Raditya Dika membuatnya sangat relatable.",
+        "viral_caption": "Dibilangin jangan sering gendong anak nanti 'bau tangan'? Raditya Dika juga ngalamin! Ternyata itu cuma mitos & faktanya justru sebaliknya! 🤯 #mitosparenting #bautangan #radityadika",
+        "hook_heading": "ANAK BAU TANGAN?",
+        "hook_subheading": "Ternyata Itu Cuma Mitos!",
+        "preset2_content": "Dulu pas baru punya anak, *sering banget* dibilangin 'jangan digendong terus, nanti bau tangan'. Ternyata itu **SALAH BESAR**. Anak nangis itu cara dia komunikasi. Saat kita gendong, itu membangun *rasa aman* dan bagus banget buat bonding."
+      },
+      {
+        "start_time": 790.2,
+        "end_time": 859.33,
+        "topic": "Cara Modern Bicara Uang ke Anak Sejak Dini",
+        "reason": "Topik tabu yang dibahas dengan cara praktis. Memberikan 'izin' dan cara bagi orang tua modern untuk mendobrak pola asuh lama soal keuangan.",
+        "viral_caption": "Ngomongin duit sama anak kecil, tabu gak sih? Jaman dulu sih iya, tapi sekarang... WAJIB! Ini alasannya kenapa. #edukasiuang #financialliteracy #parentingtips",
+        "hook_heading": "BICARA DUIT KE ANAK",
+        "hook_subheading": "Jangan Tunggu Sampai Besar",
+        "preset2_content": "Orang tua dulu mikir 'anak tau apa soal duit'. Tapi sekarang, uang itu **BUKAN HAL TABU**. Justru kita harus mulai bicara soal uang, daripada anak dapat *info yang salah* dari luar. Omonginnya bertahap, sesuai usianya."
+      },
+      {
+        "start_time": 1299.14,
+        "end_time": 1368.11,
+        "topic": "Rahasia Hentikan Tantrum Anak: Validasi Emosi",
+        "reason": "Memberikan solusi konkret untuk masalah universal semua orang tua: tantrum. Konsep 'pintu tertutup' dan 'validasi' adalah game-changer yang mudah dipahami dan dipraktikkan.",
+        "viral_caption": "Anak lagi tantrum dinasehatin malah makin jadi? Kamu salah langkah! Lakuin 1 hal ini dulu sebelum ngomong. Works like magic! ✨ #anaktantrum #validasiemosi #tipsorangtua",
+        "hook_heading": "ANAK NGAMUK? JANGAN DINASEHATIN!",
+        "hook_subheading": "Lakukan Ini Dulu",
+        "preset2_content": "Saat anak tantrum, kita merasa *paling tahu* yang benar. Tapi saat itu, 'pintu' pikiran anak lagi **TERTUTUP**. Nasehat gak akan masuk. Caranya? *Validasi dulu* perasaannya. 'Oh kamu marah ya?', 'Kamu kesel ya?'. Setelah itu, pintunya baru kebuka."
+      },
+      {
+        "start_time": 1570.37,
+        "end_time": 1605.37,
+        "topic": "Jangan Jadikan Anak 'Alat Balas Dendam' Ambisimu",
+        "reason": "Menyentil ego orang tua dengan sangat tajam. Pesan 'jangan jadikan anak balas dendam' sangat menusuk dan membuat orang tua introspeksi. Diakhiri dengan humor khas Raditya Dika.",
+        "viral_caption": "Dulu pengen jadi penyanyi tapi gak kesampean? Jangan paksa anakmu les vokal! Warning keras dari psikolog buat orang tua. 뼈때리네 😱 #ambisiortu #parentinglife #radityadika",
+        "hook_heading": "CITA-CITAMU GAGAL?",
+        "hook_subheading": "Jangan Balas Dendam ke Anak",
+        "preset2_content": "Ini bahaya banget. Bakat anak *dipaksakan* karena ambisi orang tua. 'Dulu aku pengen jadi penyanyi gak kesampaian, anakku harus bisa!'. Jangan sampai anak jadi **ALAT BALAS DENDAM** orang tuanya. Kata Radit: 'Anakku harus bisa stand-up biar bisa balesin aku!'"
+      },
+      {
+        "start_time": 2062.67,
+        "end_time": 2107.94,
+        "topic": "Syarat Anak Siap Sekolah: Bukan Bisa Baca, Tapi Ini...",
+        "reason": "Memberikan perspektif baru yang melawan arus tekanan 'calistung' (baca tulis hitung). Fokus pada kematangan emosi sebagai fondasi adalah insight yang sangat berharga dan menenangkan bagi orang tua.",
+        "viral_caption": "Anak tetangga udah bisa baca, anakku belum! Panik? Tenang... Ternyata kesiapan sekolah itu bukan soal calistung, tapi soal KEMATANGAN EMOSI. Ini penjelasannya. #siapasekolah #calistung #parentingindonesia",
+        "hook_heading": "ANAK SIAP SEKOLAH?",
+        "hook_subheading": "Bukan Dilihat Dari Calistung",
+        "preset2_content": "Kunci anak siap sekolah itu saat *emosinya matang*. Kenapa? Supaya dia bisa **FOKUS MENANGKAP PELAJARAN**. Kalau emosinya belum stabil, gampang ke-distract, masih suka kepikiran 'aku lagi sebel', apa yang diomongin guru *gak akan masuk*."
+      },
+      {
+        "start_time": 2195.38,
+        "end_time": 2231.1,
+        "topic": "Satu Hal Paling Penting Dalam Mendidik Anak",
+        "reason": "Memberikan jawaban yang mengejutkan dan fundamental. Mengalihkan fokus dari 'anak' ke 'orang tua' sebagai sebuah tim. Ini adalah nasihat pamungkas yang kuat.",
+        "viral_caption": "Apa sih 1 hal paling krusial dalam mendidik anak? Jawabannya bukan tentang mainan atau sekolah mahal, tapi sesuatu yang sering kita lupakan sebagai pasangan. #parentinggoals #suamiistri #radityadika",
+        "hook_heading": "1 HAL PALING PENTING",
+        "hook_subheading": "Dalam Mendidik Anak",
+        "preset2_content": "Satu hal paling utama yang jadi fondasi anak belajar adalah... **KOMUNIKASI KEDUA ORANG TUA**. Samain dulu *visi misinya*. Ayah dan Ibu harus satu suara. Percuma Ayah bilang A, tapi Ibu bilang B. Anak jadi bingung."
+      }
+    ]
+  },
+  {
+    "model": "DeepSeek V3",
+    "tier": "cheap",
+    "status": "success",
+    "elapsed": 41.245970726013184,
+    "tokens_in": 10742,
+    "tokens_out": 1083,
+    "response_len": 3368,
+    "clips_count": 7,
+    "clips_valid": 5,
+    "clips_complete": 7,
+    "score": 100,
+    "total_duration": 308,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 55.1,
+        "end_time": 110.3,
+        "topic": "Golden Age Anak",
+        "reason": "Penjelasan ilmiah tentang pentingnya usia dini untuk pembelajaran",
+        "viral_caption": "Usia emas anak itu sebelum 5 tahun, mitos atau fakta? Simak penjelasannya!",
+        "hook_heading": "GOLDEN AGE",
+        "hook_subheading": "MITOS ATAU FAKTA?",
+        "preset2_content": "Ternyata *Golden Age* anak itu **benar-benar penting** loh! Usia di bawah 5 tahun adalah waktu terbaik untuk belajar hal baru."
+      },
+      {
+        "start_time": 481.36,
+        "end_time": 497.36,
+        "topic": "Anak Nangis",
+        "reason": "Insight kontroversial tentang membiarkan anak menangis",
+        "viral_caption": "Ternyata membiarkan anak nangis itu justru baik? Ini penjelasan psikologinya!",
+        "hook_heading": "ANAK NANGIS",
+        "hook_subheading": "JANGAN LANGSUNG DIDIAMKAN",
+        "preset2_content": "*Nangis* adalah cara anak **berkomunikasi**. Memberikan kenyamanan justru membangun *bonding* yang lebih kuat dengan orang tua."
+      },
+      {
+        "start_time": 612.78,
+        "end_time": 677.34,
+        "topic": "Anak Manja",
+        "reason": "Debat tentang anggapan anak jadi manja jika sering dipeluk",
+        "viral_caption": "Anak jadi manja kalau sering dipeluk? Ini faktanya menurut psikologi!",
+        "hook_heading": "MANJA ATAU TIDAK?",
+        "hook_subheading": "FAKTA YANG MENGEJUTKAN",
+        "preset2_content": "Pelukan justru **membangun rasa percaya diri** anak! *Attachment* dengan orang tua itu penting untuk perkembangan emosional."
+      },
+      {
+        "start_time": 862.17,
+        "end_time": 928.65,
+        "topic": "Edukasi Keuangan",
+        "reason": "Tips praktis mengajarkan anak menabung sejak dini",
+        "viral_caption": "Cara kreatif ngajarin anak nabung sejak kecil, orang tua wajib tau!",
+        "hook_heading": "NABUNG DULU",
+        "hook_subheading": "BARU BELI MAINAN",
+        "preset2_content": "Ajarkan *financial literacy* sejak dini! **Tunda gratifikasi** dengan konsep *nabung dulu baru beli* mainan."
+      },
+      {
+        "start_time": 1708.3,
+        "end_time": 1758.74,
+        "topic": "Sekolah Dini",
+        "reason": "Pandangan kontroversial tentang sekolah untuk anak kecil",
+        "viral_caption": "Anak kecil perlu sekolah? Ini pro-kontra yang harus orang tua tahu!",
+        "hook_heading": "SEKOLAH DINI",
+        "hook_subheading": "PERLU ATAU TIDAK?",
+        "preset2_content": "*Stimulasi* lebih penting daripada **sekolah formal** untuk balita. Sesuaikan dengan *readiness* anak!"
+      },
+      {
+        "start_time": 1790.62,
+        "end_time": 1824.96,
+        "topic": "Anak Cepat Baca",
+        "reason": "Bahaya memaksa anak bisa membaca sebelum waktunya",
+        "viral_caption": "Memaksa anak bisa baca sebelum 5 tahun ternyata berbahaya? Ini penjelasannya!",
+        "hook_heading": "BAHAYA!",
+        "hook_subheading": "BACA SEBELUM 5 TAHUN",
+        "preset2_content": "Fokus pada **kematangan emosi** dulu! *Memaksa* anak baca terlalu dini justru bisa *berdampak negatif*."
+      },
+      {
+        "start_time": 2215.3,
+        "end_time": 2236.4,
+        "topic": "Komunikasi Orang Tua",
+        "reason": "Pentingnya kesepahaman antara ayah dan ibu dalam parenting",
+        "viral_caption": "Rahasianya bukan di anak, tapi di komunikasi orang tua! Simak tipsnya",
+        "hook_heading": "KOMUNIKASI KUNCI",
+        "hook_subheading": "UNTUK ORANG TUA",
+        "preset2_content": "*Visi parenting* harus **sejalan** antara ayah dan ibu. *Komunikasi* orang tua adalah fondasi utama!"
+      }
+    ]
+  },
+  {
+    "model": "DeepSeek R1",
+    "tier": "mid",
+    "status": "success",
+    "elapsed": 51.02477407455444,
+    "tokens_in": 10749,
+    "tokens_out": 1632,
+    "response_len": 4095,
+    "clips_count": 7,
+    "clips_valid": 7,
+    "clips_complete": 7,
+    "score": 100,
+    "total_duration": 381,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 204.57,
+        "end_time": 249.82,
+        "topic": "Fakta Golden Age Anak",
+        "reason": "Membahas periode emas anak di bawah 5 tahun dengan penjelasan ilmiah yang mudah dipahami, cocok untuk orang tua muda.",
+        "viral_caption": "Usia 0-5 tahun adalah golden age anak. Benarkah semua hal harus diajarkan di usia ini? Simak faktanya!",
+        "hook_heading": "GOLDEN AGE",
+        "hook_subheading": "MITOS ATAU FAKTA?",
+        "preset2_content": "Banyak yang bilang di usia *golden age* **SEMUA HARUS CEPAT DIAJARKAN**. Ternyata... tergantung!"
+      },
+      {
+        "start_time": 481.36,
+        "end_time": 536.54,
+        "topic": "Mitos Bayi Jangan Sering Digendong",
+        "reason": "Membongkar mitos populer yang sering diperdebatkan di kalangan orang tua, disertai penjelasan psikologis yang mengejutkan.",
+        "viral_caption": "Katanya bayi jangan sering digendong, nanti manja. Ternyata SALAH BESAR! Ini penjelasan psikologinya.",
+        "hook_heading": "JANGAN DIGENDONG?",
+        "hook_subheading": "MITOS YANG SALAH",
+        "preset2_content": "Bayi nangis, dibilang *jangan langsung digendong*. Itu **CARA DIA KOMUNIKASI**. Gendong justru bikin dia merasa aman."
+      },
+      {
+        "start_time": 618.5,
+        "end_time": 684.28,
+        "topic": "Anak Manja karena Kasih Sayang?",
+        "reason": "Menjawab kekhawatiran umum orang tua tentang memanjakan anak, dengan insight bahwa kasih sayang justru membangun kepercayaan diri.",
+        "viral_caption": "Takut anak jadi manja karena terlalu dicintai? Dengarkan ini dulu sebelum salah kaprah.",
+        "hook_heading": "ANAK MANJA?",
+        "hook_subheading": "INI PENJELASANNYA",
+        "preset2_content": "Pelukan dan kasih sayang *bukan bikin manja*, tapi **MEMBANGUN RASA PERCAYA DIRI** anak sejak kecil."
+      },
+      {
+        "start_time": 843.15,
+        "end_time": 899.49,
+        "topic": "Cara Mengajarkan Uang pada Anak",
+        "reason": "Tips praktis dan relatable tentang cara mengenalkan konsep uang dan menabung ke anak dengan cara yang sehat.",
+        "viral_caption": "Kapan waktu yang tepat ngomongin uang sama anak? Jangan sampai mereka dapat info yang salah dari luar!",
+        "hook_heading": "NGOMONGIN UANG",
+        "hook_subheading": "PENTING DIAWALI ORANG TUA",
+        "preset2_content": "Bicara uang sama anak itu *bukan tabu*. Mulai dari hal kecil, misal **NABUNG DULU BARU BELI MAINAN**."
+      },
+      {
+        "start_time": 1275.68,
+        "end_time": 1328.47,
+        "topic": "Cara Hadapi Anak yang Tidak Mau Dengar",
+        "reason": "Strategi konkret dan insight psikologis untuk menghadapi anak yang sedang emosi, sangat dibutuhkan orang tua.",
+        "viral_caption": "Anak lagi ngamuk dan nggak mau dengar omongan? Jangan langsung marah. Coba teknik validasi emosi ini.",
+        "hook_heading": "ANAK NGAMUK",
+        "hook_subheading": "JANGAN LANGSUNG MARAH",
+        "preset2_content": "Saat anak marah, *otaknya sedang 'tertutup'*. **VALIDASI EMOSINYA** dulu, baru masukin logika."
+      },
+      {
+        "start_time": 1570.37,
+        "end_time": 1625.45,
+        "topic": "Anak Jadi Balas Dendam Orang Tua?",
+        "reason": "Cerita personal Raditya Dika yang lucu dan mendalam tentang kekhawatiran anaknya ingin jadi stand-up comedian untuk 'membalas' dirinya.",
+        "viral_caption": "Raditya Dika khawatir anaknya jadi stand-up comedian cuma untuk balas dendam sama dia! Dengerin ceritanya yang lucu banget.",
+        "hook_heading": "BALAS DENDAM?",
+        "hook_subheading": "CERITA RADITYA DIKA",
+        "preset2_content": "Anakku bilang mau jadi *stand-up comedian*. Takutnya cuma **BUAT BALAS DENDAM SAMA GUE**! *Wkwkwk*."
+      },
+      {
+        "start_time": 1708.3,
+        "end_time": 1758.74,
+        "topic": "Perlu Sekolah di Usia Dini?",
+        "reason": "Debat seputar kebutuhan sekolah untuk anak usia dini, dengan sudut pandang bahwa stimulasi bisa dari rumah dan lihat kesiapan anak.",
+        "viral_caption": "Anak umur 2 tahun harus sudah sekolah? Atau stimulasi di rumah saja cukup? Simak pendapat ahli.",
+        "hook_heading": "SEKOLAH DINI",
+        "hook_subheading": "PERLU ATAU TIDAK?",
+        "preset2_content": "Sekolah di usia dini *bukan keharusan*. **LIHAT KESIAPAN ANAK**. Stimulasi yang menyenangkan di rumah juga bisa."
+      }
+    ]
+  },
+  {
+    "model": "Claude Sonnet 4",
+    "tier": "premium",
+    "status": "success",
+    "elapsed": 26.85633111000061,
+    "tokens_in": 12060,
+    "tokens_out": 1407,
+    "response_len": 3604,
+    "clips_count": 7,
+    "clips_valid": 5,
+    "clips_complete": 7,
+    "score": 100,
+    "total_duration": 514,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 481.36,
+        "end_time": 536.54,
+        "topic": "Mitos gendong anak bikin manja",
+        "reason": "Debunking mitos populer tentang parenting yang banyak dipercaya orang tua",
+        "viral_caption": "Ternyata gendong anak TIDAK bikin manja! Ini faktanya 😱",
+        "hook_heading": "GENDONG ANAK",
+        "hook_subheading": "BIKIN MANJA ATAU TIDAK?",
+        "preset2_content": "Anak nangis adalah *cara komunikasi* mereka. Gendong memberikan **KENYAMANAN DAN KEAMANAN** yang justru membangun rasa percaya pada dunia."
+      },
+      {
+        "start_time": 219.61,
+        "end_time": 281.44,
+        "topic": "Golden age anak belajar hal baru",
+        "reason": "Fakta penting tentang masa emas perkembangan anak yang perlu diketahui semua orang tua",
+        "viral_caption": "Masa golden age anak itu NYATA! Tapi ada yang harus diperhatikan...",
+        "hook_heading": "GOLDEN AGE",
+        "hook_subheading": "ANAK BELAJAR CEPAT",
+        "preset2_content": "Anak *lebih mudah belajar* sebelum 5 tahun itu **FAKTA**. Tapi harus disesuaikan dengan *kesiapan fisik* mereka juga."
+      },
+      {
+        "start_time": 839.29,
+        "end_time": 920.03,
+        "topic": "Mengajarkan konsep uang pada anak",
+        "reason": "Tips praktis yang relatable untuk orang tua modern tentang financial literacy",
+        "viral_caption": "Kapan sih mulai ngajarin anak tentang uang? Ini caranya!",
+        "hook_heading": "UANG ANAK",
+        "hook_subheading": "KAPAN MULAI NGAJARIN?",
+        "preset2_content": "Uang bukan topik *tabu* untuk anak. Ajari **BERTAHAP SESUAI USIA** supaya mereka dapat informasi yang benar dari kita."
+      },
+      {
+        "start_time": 1327.93,
+        "end_time": 1397.69,
+        "topic": "Cara efektif mendisiplinkan anak tantrum",
+        "reason": "Solusi praktis untuk masalah yang dialami hampir semua orang tua",
+        "viral_caption": "Anak tantrum? Jangan langsung nasehatin! Ini yang harus dilakukan dulu",
+        "hook_heading": "ANAK TANTRUM",
+        "hook_subheading": "CARA TEPAT MENGATASINYA",
+        "preset2_content": "Saat anak *marah atau tantrum*, jangan langsung kasih nasihat. **TENANGKAN DULU** baru bicara kenapa dia marah."
+      },
+      {
+        "start_time": 1417.57,
+        "end_time": 1519.23,
+        "topic": "Menemukan bakat dan minat anak",
+        "reason": "Insight tentang cara mengenali potensi anak tanpa memaksakan kehendak orang tua",
+        "viral_caption": "Gimana sih cara tau bakat anak yang sesungguhnya? Ini tipsnya!",
+        "hook_heading": "BAKAT ANAK",
+        "hook_subheading": "CARA MENEMUKANNYA",
+        "preset2_content": "Tugas orang tua adalah *memberikan kesempatan* eksplorasi. Lihat mana yang **KONSISTEN DIMINATI** anak, bukan yang dipaksakan."
+      },
+      {
+        "start_time": 1703.8,
+        "end_time": 1795.5,
+        "topic": "Anak kecil perlu sekolah atau tidak",
+        "reason": "Perdebatan klasik orang tua tentang pendidikan anak usia dini",
+        "viral_caption": "Anak 2-3 tahun WAJIB sekolah? Ini pendapat ahlinya!",
+        "hook_heading": "SEKOLAH DINI",
+        "hook_subheading": "PERLU ATAU TIDAK?",
+        "preset2_content": "Anak kecil *tidak wajib* sekolah formal. Yang penting **STIMULASI DI RUMAH** dan jangan terlalu dini bebankan hal berat."
+      },
+      {
+        "start_time": 2195.38,
+        "end_time": 2248.92,
+        "topic": "Hal terpenting dalam mendidik anak",
+        "reason": "Kesimpulan powerful dari expert tentang prioritas utama parenting",
+        "viral_caption": "Dari semua tips parenting, INI yang paling penting menurut ahli!",
+        "hook_heading": "PARENTING UTAMA",
+        "hook_subheading": "YANG PALING PENTING",
+        "preset2_content": "Yang **PALING UTAMA** dalam parenting adalah *komunikasi antar orang tua*. Samakan dulu visi misi kalian berdua."
+      }
+    ]
+  },
+  {
+    "model": "GPT-4o Mini",
+    "tier": "cheap",
+    "status": "success",
+    "elapsed": 19.97323441505432,
+    "tokens_in": 10271,
+    "tokens_out": 824,
+    "response_len": 2826,
+    "clips_count": 7,
+    "clips_valid": 0,
+    "clips_complete": 7,
+    "score": 61,
+    "total_duration": 56,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 204.57,
+        "end_time": 217.59,
+        "topic": "Mitos vs Fakta Parenting",
+        "reason": "Menarik perhatian dengan fakta mengejutkan tentang perkembangan anak.",
+        "viral_caption": "Fakta Mengejutkan Parenting!",
+        "hook_heading": "Mitos atau Fakta?",
+        "hook_subheading": "Anak Belajar Lebih Awal",
+        "preset2_content": "Kata biasa *anak* **belajar lebih cepat** kata biasa"
+      },
+      {
+        "start_time": 481.36,
+        "end_time": 490.7,
+        "topic": "Cara Anak Berkomunikasi",
+        "reason": "Insight mendalam tentang cara anak berkomunikasi melalui tangisan.",
+        "viral_caption": "Anak Nangis Itu Normal!",
+        "hook_heading": "Cara Anak Berkomunikasi",
+        "hook_subheading": "Tangisan Sebagai Bahasa",
+        "preset2_content": "Kata biasa *nangis* **komunikasi anak** kata biasa"
+      },
+      {
+        "start_time": 518.5,
+        "end_time": 521.46,
+        "topic": "Pentingnya Bonding",
+        "reason": "Momen emosional tentang pentingnya bonding antara ibu dan anak.",
+        "viral_caption": "Bonding Itu Penting!",
+        "hook_heading": "Pentingnya Bonding",
+        "hook_subheading": "Hubungan Ibu dan Anak",
+        "preset2_content": "Kata biasa *bonding* **hubungan yang kuat** kata biasa"
+      },
+      {
+        "start_time": 666.58,
+        "end_time": 671.82,
+        "topic": "Membangun Rasa Percaya Diri",
+        "reason": "Insight tentang pentingnya membangun rasa percaya diri anak sejak kecil.",
+        "viral_caption": "Bangun Rasa Percaya Diri Anak!",
+        "hook_heading": "Percaya Diri Anak",
+        "hook_subheading": "Dari Kecil Sangat Penting",
+        "preset2_content": "Kata biasa *percaya diri* **anak bahagia** kata biasa"
+      },
+      {
+        "start_time": 1790.62,
+        "end_time": 1795.5,
+        "topic": "Pendidikan Dini",
+        "reason": "Debat tentang pentingnya pendidikan dini dan dampaknya.",
+        "viral_caption": "Pendidikan Dini, Perlu atau Tidak?",
+        "hook_heading": "Pendidikan Dini",
+        "hook_subheading": "Perlu atau Tidak?",
+        "preset2_content": "Kata biasa *pendidikan* **dampak jangka panjang** kata biasa"
+      },
+      {
+        "start_time": 1915.14,
+        "end_time": 1922.54,
+        "topic": "Kegiatan Menyenangkan untuk Anak",
+        "reason": "Cerita personal tentang pengalaman menyenangkan anak di sekolah.",
+        "viral_caption": "Sekolah Harus Menyenangkan!",
+        "hook_heading": "Sekolah Menyenangkan",
+        "hook_subheading": "Anak Happy Belajar",
+        "preset2_content": "Kata biasa *sekolah* **harus menyenangkan** kata biasa"
+      },
+      {
+        "start_time": 2207.74,
+        "end_time": 2221.28,
+        "topic": "Komunikasi Orang Tua",
+        "reason": "Insight tentang pentingnya komunikasi antara orang tua dan anak.",
+        "viral_caption": "Komunikasi Itu Kunci!",
+        "hook_heading": "Komunikasi Penting",
+        "hook_subheading": "Antara Orang Tua dan Anak",
+        "preset2_content": "Kata biasa *komunikasi* **kunci sukses** kata biasa"
+      }
+    ]
+  },
+  {
+    "model": "Llama 4 Maverick",
+    "tier": "mid",
+    "status": "success",
+    "elapsed": 18.75495958328247,
+    "tokens_in": 10278,
+    "tokens_out": 838,
+    "response_len": 2942,
+    "clips_count": 7,
+    "clips_valid": 7,
+    "clips_complete": 7,
+    "score": 100,
+    "total_duration": 308,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 481.0,
+        "end_time": 525.0,
+        "topic": "Komunikasi Anak",
+        "reason": "Menjelaskan pentingnya memahami komunikasi anak",
+        "viral_caption": "Anak nangis bukan berarti minta dituruti!",
+        "hook_heading": "TIPS",
+        "hook_subheading": "Komunikasi Efektif",
+        "preset2_content": "Anak nangis adalah cara mereka *\"berbicara\"*. Dengan **memahami** ini, kita bisa lebih **dekat** dengan mereka."
+      },
+      {
+        "start_time": 219.0,
+        "end_time": 263.0,
+        "topic": "Golden Age",
+        "reason": "Membahas konsep golden age dalam perkembangan anak",
+        "viral_caption": "Pentingnya stimulasi pada golden age!",
+        "hook_heading": "FAKTA",
+        "hook_subheading": "Usia Emas",
+        "preset2_content": "Anak lebih cepat mempelajari hal baru sebelum umur *5 tahun*. Ini adalah **masa emas** untuk perkembangan mereka."
+      },
+      {
+        "start_time": 839.0,
+        "end_time": 883.0,
+        "topic": "Mengajarkan Uang",
+        "reason": "Tips mengajarkan anak tentang uang",
+        "viral_caption": "Ajarkan anak nabung dari dini!",
+        "hook_heading": "TIPS",
+        "hook_subheading": "Mengelola Uang",
+        "preset2_content": "Mengajarkan anak nabung bisa dimulai dengan *membuat mereka memahami nilai uang*. Ini **membantu** mereka jadi lebih **bijak**."
+      },
+      {
+        "start_time": 1243.0,
+        "end_time": 1287.0,
+        "topic": "Aturan untuk Anak",
+        "reason": "Menjelaskan pentingnya membuat aturan yang jelas",
+        "viral_caption": "Aturan jelas bikin anak lebih patuh!",
+        "hook_heading": "PARENTING",
+        "hook_subheading": "Aturan Jelas",
+        "preset2_content": "Membuat aturan yang *jelas* dan **konsisten** membantu anak memahami batasan dan menjadi lebih **teratur**."
+      },
+      {
+        "start_time": 1703.0,
+        "end_time": 1747.0,
+        "topic": "Stimulasi Anak",
+        "reason": "Membahas mitos tentang stimulasi anak",
+        "viral_caption": "Jangan terlalu dini memaksa anak!",
+        "hook_heading": "MITOS",
+        "hook_subheading": "Stimulasi Dini",
+        "preset2_content": "Terlalu banyak stimulasi bisa *berbahaya*. Kita harus memahami **kebutuhan** anak dan tidak memaksakan."
+      },
+      {
+        "start_time": 2212.0,
+        "end_time": 2256.0,
+        "topic": "Komunikasi Orang Tua",
+        "reason": "Menekankan pentingnya komunikasi antara orang tua",
+        "viral_caption": "Komunikasi orang tua kunci sukses parenting!",
+        "hook_heading": "KOMUNIKASI",
+        "hook_subheading": "Orang Tua Harmonis",
+        "preset2_content": "Komunikasi yang *baik* antara orang tua adalah **fondasi** untuk *parenting* yang sukses."
+      },
+      {
+        "start_time": 1449.0,
+        "end_time": 1493.0,
+        "topic": "Eksplorasi Minat Anak",
+        "reason": "Menjelaskan pentingnya eksplorasi minat anak",
+        "viral_caption": "Dukung anak eksplorasi minat mereka!",
+        "hook_heading": "EKSPLORASI",
+        "hook_subheading": "Temukan Bakat",
+        "preset2_content": "Membiarkan anak *mengeksplorasi* minat mereka membantu mereka menemukan **bakat** dan **passion**."
+      }
+    ]
+  },
+  {
+    "model": "Qwen3 235B",
+    "tier": "mid",
+    "status": "success",
+    "elapsed": 154.82644653320312,
+    "tokens_in": 12754,
+    "tokens_out": 6198,
+    "response_len": 3700,
+    "clips_count": 7,
+    "clips_valid": 1,
+    "clips_complete": 7,
+    "score": 72,
+    "total_duration": 101,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 236.46,
+        "end_time": 249.82,
+        "topic": "Golden Age Anak 0-3 Tahun",
+        "reason": "Mitos tentang usia emas anak yang paling kritis untuk stimulasi, relevan dengan kekhawatiran orang tua baru",
+        "viral_caption": "Usia 3 tahun adalah titik balik! Begini fakta ilmiahnya...",
+        "hook_heading": "Golden Age",
+        "hook_subheading": "3 Tahun Kritis",
+        "preset2_content": "Jadi ketika orang bilang di usia *Golden Age* ini, apabila 3 tahun, rap apa yang kita sampaikan apa yang ada di lingkungannya **itu bener**"
+      },
+      {
+        "start_time": 481.36,
+        "end_time": 497.36,
+        "topic": "Mitos Anak Menangis Harus Dibiarkan",
+        "reason": "Debat panas tentang kebutuhan anak untuk digendong, melawan mitos 'manjain anak'",
+        "viral_caption": "Jangan biarkan anak menangis sendirian! Ini fakta ilmiahnya...",
+        "hook_heading": "Stop Biarkan",
+        "hook_subheading": "Anak Menangis",
+        "preset2_content": "Anak nangis, *itu adalah cara dia* untuk komunikasi. Gendong akhirnya memberikan kenyamanan dan keamanan **itu tumbuh untuk bonding**"
+      },
+      {
+        "start_time": 558.14,
+        "end_time": 563.88,
+        "topic": "Kasih Sayang vs Kebutuhan Anak",
+        "reason": "Pernyataan mengejutkan tentang pentingnya kasih sayang tanpa syarat",
+        "viral_caption": "Anak nangis karena butuh kasih sayang, bukan karena dimanja!",
+        "hook_heading": "Kasih Sayang",
+        "hook_subheading": "Tanpa Syarat",
+        "preset2_content": "Ya, kita jauh ngomong, kita kasih sayang. *Kamu nangisnya, gitu kan.* Di sini jadi disitulah tumbuh rasa percaya"
+      },
+      {
+        "start_time": 666.58,
+        "end_time": 684.28,
+        "topic": "Membangun Rasa Percaya Diri Anak",
+        "reason": "Insight mendalam tentang pentingnya pelukan untuk kepercayaan diri",
+        "viral_caption": "Pelukan bukan sekadar kasih sayang, ini fondasi kepercayaan diri!",
+        "hook_heading": "Pelukan Ajaib",
+        "hook_subheading": "Rasa Percaya",
+        "preset2_content": "Nah itu memang terbangun dari kecil banget ya. Sampai gendong kalau misalnya nanti anak *merasa cukup* nih dengan pelukan, **justri itu menumbuhkan rasa percaya**"
+      },
+      {
+        "start_time": 704.5,
+        "end_time": 715.3,
+        "topic": "Sekolah vs Kepercayaan Diri",
+        "reason": "Debat tentang kesiapan sekolah vs pembentukan kepercayaan diri",
+        "viral_caption": "Sekolah dini bisa hancurkan kepercayaan diri? Simak fakta ini!",
+        "hook_heading": "Sekolah Dini",
+        "hook_subheading": "Bahaya?",
+        "preset2_content": "Udah mau kan, bisa kalau misalnya kesekolah gitu ya sih, tapi -buku nih gara-gara punya anak ini nih salah satunya bilang bahwa *dalam rumah udah dikasih kepercayaan diri*"
+      },
+      {
+        "start_time": 1570.37,
+        "end_time": 1577.39,
+        "topic": "Bakat Anak vs Ambisi Orang Tua",
+        "reason": "Kritik tajam terhadap orang tua yang proyeksikan ambisi ke anak",
+        "viral_caption": "Jangan paksa anak jadi pelampiasan ambisi kamu!",
+        "hook_heading": "Ambisi Ortu",
+        "hook_subheading": "Hancurkan Bakat",
+        "preset2_content": "Tapi, wah ini berarti bakatnya didedaskan karena orang tua kan. Akhirnya itu semua kayaknya gak dari hatinya dia. *Jangan sampai anak jadi balas dendam orang tua*"
+      },
+      {
+        "start_time": 1790.62,
+        "end_time": 1821.24,
+        "topic": "Bahaya Membaca Terlalu Dini",
+        "reason": "Peringatan ilmiah tentang tekanan akademik pada anak kecil",
+        "viral_caption": "Membaca dini bisa bahayakan emosi anak? Ini penjelasannya!",
+        "hook_heading": "Baca Dini",
+        "hook_subheading": "Bahaya Emosi",
+        "preset2_content": "Harus bisa baca sebelum 5 tahun. Karena kalau misalnya terlalu dini dihujam diri yang berat-berat, *aja tapi emosinya gak dibangun, kemampuan kan justru bahaya*"
+      }
+    ]
+  },
+  {
+    "model": "Mistral Large",
+    "tier": "mid",
+    "status": "success",
+    "elapsed": 33.76596426963806,
+    "tokens_in": 13981,
+    "tokens_out": 1706,
+    "response_len": 4073,
+    "clips_count": 7,
+    "clips_valid": 2,
+    "clips_complete": 7,
+    "score": 100,
+    "total_duration": 163,
+    "overlaps": 0,
+    "clips": [
+      {
+        "start_time": 204.57,
+        "end_time": 240.92,
+        "topic": "Mitos vs Fakta Mendidik Anak",
+        "reason": "Mengenalkan topik utama podcast dengan pembukaan yang menarik.",
+        "viral_caption": "Mitos vs Fakta Mendidik Anak: Apa yang Benar?",
+        "hook_heading": "Mitos vs Fakta",
+        "hook_subheading": "Mendidik Anak",
+        "preset2_content": "Jadi kita akan ngomongin mitos dan faktor untuk parenting ya disini biki bisa confirmasi ini bener -bener apa nggak ya."
+      },
+      {
+        "start_time": 269.52,
+        "end_time": 285.38,
+        "topic": "Pentingnya Pendidikan Dini",
+        "reason": "Debat tentang keuntungan dan kelemahan pendidikan dini.",
+        "viral_caption": "Pendidikan Dini: Keuntungan dan Kelemahan",
+        "hook_heading": "Pendidikan Dini",
+        "hook_subheading": "Keuntungan dan Kelemahan",
+        "preset2_content": "Jadi ketika orang bilang di Ushia Golden Age ni, Apabila 3 tahun, rap apa yang kita sampaikan apa yang ada di linkungannya Itu bener memang bagus di Ushia Dini tapi kalau misalnya nanti kita lihat yang harus menunggu kasiapan fisik misalnya mau bisa ngajarin keseimbangannya gimana"
+      },
+      {
+        "start_time": 481.36,
+        "end_time": 497.36,
+        "topic": "Komunikasi Anak Melalui Nangis",
+        "reason": "Insight mendalam tentang komunikasi anak melalui nangis.",
+        "viral_caption": "Anak Nangis: Bentuk Komunikasi",
+        "hook_heading": "Anak Nangis",
+        "hook_subheading": "Bentuk Komunikasi",
+        "preset2_content": "anak nangis, itu adalah cara dia untuk komunikasi. gendong akhirnya memberikan kenyamanan dan kamanan itu tumbuh Padahal ya, padahal lebih bagus gitu ya Untuk bondingnya, untuk seperti itu Karena aku lagi baca buku ini ada racing girls Jadi"
+      },
+      {
+        "start_time": 790.2,
+        "end_time": 811.57,
+        "topic": "Pendidikan Kewirausahaan untuk Anak",
+        "reason": "Tips praktis tentang mengajarkan kewirausahaan kepada anak.",
+        "viral_caption": "Ajarkan Anak Kewirausahaan",
+        "hook_heading": "Kewirausahaan Anak",
+        "hook_subheading": "Tips Praktis",
+        "preset2_content": "aja aja lagi anak juga tau apa sih sual duit gitu tapi yang sebenernya kita lihat ya, kalau di orang deva satu, mungkin hangat -angatan Orang itu jaman dulu, apa sih? di pikirin dapur koya papah yang rosin gitu kan"
+      },
+      {
+        "start_time": 1223.92,
+        "end_time": 1243.6,
+        "topic": "Aturan dan Kebutuhan Anak",
+        "reason": "Cerita personal tentang kebutuhan anak dan aturan.",
+        "viral_caption": "Aturan dan Kebutuhan Anak",
+        "hook_heading": "Aturan Anak",
+        "hook_subheading": "Kebutuhan Anak",
+        "preset2_content": "Nah itu juga kita perluban untuk dari sisi hidup. utama dulu baru disert gitu ya kita kasih tau bahwa tubuh kita Bikir -bikir anak -anak kecil itu kan semangnya, sebenarnya ketika terbutuh protectin, butuh ini butuh itu dan desi butuh gula, ada"
+      },
+      {
+        "start_time": 1703.8,
+        "end_time": 1722.3,
+        "topic": "Sekolah untuk Anak Kecil",
+        "reason": "Debat tentang kebutuhan sekolah untuk anak kecil.",
+        "viral_caption": "Sekolah untuk Anak Kecil: Butuh atau Tidak?",
+        "hook_heading": "Sekolah Anak Kecil",
+        "hook_subheading": "Butuh atau Tidak?",
+        "preset2_content": "Ini nitah satu faktan nih, katanya kalau anak masih kecil jangan Karena ada yang bilang kayak ya kalau masih kecil banget gak perlu Kalau misalnya sekolah, biasanya mereka mau spey anaknya terstingulasi tembuk kembangnya bayi nya kan ya."
+      },
+      {
+        "start_time": 2195.38,
+        "end_time": 2231.1,
+        "topic": "Komunikasi Orang Tua",
+        "reason": "Insight mendalam tentang pentingnya komunikasi orang tua.",
+        "viral_caption": "Komunikasi Orang Tua: Kunci Pendidikan Anak",
+        "hook_heading": "Komunikasi Orang Tua",
+        "hook_subheading": "Kunci Pendidikan Anak",
+        "preset2_content": "Tapi kalau menurut bingkir sendiri apa satu hal yang paling utama awal mereka belajar Terutama di beli 5 tahun, apa sih benar -benar Yang pertama adalah komunikasi terdua orang tua. Jadi kan samain dulu deh, visi misinya kita mau anak -anak kita Apalagi kalau suami isrin udah bisa berkombunikasi."
+      }
+    ]
+  }
+]

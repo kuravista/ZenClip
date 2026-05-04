@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+*.egg
+dist/
+build/
+.venv/
+venv/
+env/
+*.whl
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Pi / tooling
+.pi-lens/
+.playwright-mcp/
+
+# App data / runtime
+app-data/
+*.log
+
+# Test artifacts / mocks
+**/MagicMock/
+
+# Build output
+zenclip-studio/backend/dist/
+zenclip-studio/frontend/dist/
+
+# Environment
+.env
+.env.local
+
+# Job runtime data
+backend/jobs/
+backend/jobs_data/
+backend/jobs.db
+backend/cache/
+
+# Test/temp files
+backend/_gemini_test_response.txt
+backend/_test_job_id.txt
+backend/gemini_clips_data.json
+backend/gemini_raw_response.txt
+backend/r2_config.json
+backend/user_settings.json
+
+# Static generated
+static/
