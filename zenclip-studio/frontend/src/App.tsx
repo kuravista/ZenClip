@@ -86,7 +86,7 @@ export default function App() {
   }, [isProcessing, pollResources]);
 
   // Load saved settings (API key, provider)
-  const [savedSettings, setSavedSettings] = useState<{ apiKey?: string; apiProvider?: string; openrouterApiKey?: string }>({});
+  const [savedSettings, setSavedSettings] = useState<Record<string, unknown>>({});
 
   useEffect(() => {
     (async () => {
@@ -276,14 +276,14 @@ export default function App() {
       formData.append('add_viral_hook', String(data.addHook ? 'true' : 'false'));
       formData.append('add_watermark', String(data.addWatermark ? 'true' : 'false'));
 
-      // Watermark config from saved settings
+      // Watermark config from form data (with settings fallback)
       if (data.addWatermark) {
         formData.append('watermark_type', 'text');
-        formData.append('watermark_text', savedSettings.watermark_text || 'ZenClip');
-        formData.append('watermark_opacity', String(savedSettings.watermark_opacity ?? 0.5));
-        formData.append('watermark_position', savedSettings.watermark_position || 'bottom_right');
-        formData.append('watermark_size', String(savedSettings.watermark_size ?? 0.3));
-        formData.append('watermark_font', savedSettings.watermark_font || 'Arial-Bold');
+        formData.append('watermark_text', String(data.watermarkText || savedSettings.watermark_text || 'ZenClip'));
+        formData.append('watermark_opacity', String(data.watermarkOpacity ?? savedSettings.watermark_opacity ?? 0.5));
+        formData.append('watermark_position', String(data.watermarkPosition || savedSettings.watermark_position || 'bottom_right'));
+        formData.append('watermark_size', String(data.watermarkSize ?? savedSettings.watermark_size ?? 0.3));
+        formData.append('watermark_font', String(data.watermarkFont || savedSettings.watermark_font || 'Poppins-Bold'));
       }
       formData.append('transcription_mode', 'fast');
       formData.append('video_type', 'general');
@@ -307,12 +307,12 @@ export default function App() {
       formData.append('quality_preset', String(data.qualityPreset || 'balanced'));
 
       // Subtitle config from saved settings (font, colors, etc.)
-      formData.append('subtitle_font_family', savedSettings.subtitle_font_family || 'Arial');
+      formData.append('subtitle_font_family', String(savedSettings.subtitle_font_family || 'Arial'));
       formData.append('subtitle_font_size', String(savedSettings.subtitle_font_size ?? 45));
-      formData.append('subtitle_text_color', savedSettings.subtitle_text_color || '#FFFF00');
-      formData.append('subtitle_stroke_color', savedSettings.subtitle_stroke_color || '#000000');
+      formData.append('subtitle_text_color', String(savedSettings.subtitle_text_color || '#FFFF00'));
+      formData.append('subtitle_stroke_color', String(savedSettings.subtitle_stroke_color || '#000000'));
       formData.append('subtitle_stroke_width', String(savedSettings.subtitle_stroke_width ?? 3));
-      formData.append('subtitle_bg_color', savedSettings.subtitle_bg_color || '#2563eb');
+      formData.append('subtitle_bg_color', String(savedSettings.subtitle_bg_color || '#2563eb'));
       formData.append('subtitle_bg_opacity', String(savedSettings.subtitle_bg_opacity ?? 0.75));
       formData.append('subtitle_position', String(savedSettings.subtitle_position ?? 75));
 
@@ -320,11 +320,11 @@ export default function App() {
       formData.append('randomize_metadata', String(savedSettings.randomize_metadata === true ? 'true' : 'false'));
 
       // API key & provider from saved settings
-      const apiProvider = savedSettings.apiProvider || 'gemini';
-      let apiKey = savedSettings.apiKey || '';
+      const apiProvider = String(savedSettings.apiProvider || 'gemini');
+      let apiKey = String(savedSettings.apiKey || '');
       // Use provider-specific key if available
       if (apiProvider === 'openrouter' && savedSettings.openrouterApiKey) {
-        apiKey = savedSettings.openrouterApiKey;
+        apiKey = String(savedSettings.openrouterApiKey);
       }
       formData.append('api_key', apiKey);
       formData.append('api_provider', apiProvider);
@@ -526,7 +526,7 @@ export default function App() {
       <main className="max-w-6xl mx-auto p-6">
         {activeTab === 'process' && (
           <ProcessForm
-            onSubmit={(data) => handleProcess(data as Record<string, unknown>)}
+            onSubmit={(data) => handleProcess(data as unknown as Record<string, unknown>)}
             isProcessing={isProcessing}
           />
         )}

@@ -19,6 +19,11 @@ export interface ProcessFormData {
   addSubtitles: boolean;
   addHook: boolean;
   addWatermark: boolean;
+  watermarkText: string;
+  watermarkOpacity: number;
+  watermarkPosition: string;
+  watermarkSize: number;
+  watermarkFont: string;
   targetDuration: number;
   clipCount: number;
   reviewTranscript: boolean;
@@ -74,6 +79,11 @@ export function ProcessForm({ onSubmit, isProcessing }: ProcessFormProps) {
     addSubtitles: true,
     addHook: true,
     addWatermark: false,
+    watermarkText: 'ZenClip',
+    watermarkOpacity: 0.5,
+    watermarkPosition: 'bottom_right',
+    watermarkSize: 0.3,
+    watermarkFont: 'Poppins-Bold',
     reviewTranscript: false,
     targetDuration: 60,
     clipCount: 5,
@@ -119,8 +129,13 @@ export function ProcessForm({ onSubmit, isProcessing }: ProcessFormProps) {
           hookHighlightColor: s.hook_highlight_color || prev.hookHighlightColor,
           // Subtitle defaults
           subtitleStyle: s.defaultSubtitleStyle || prev.subtitleStyle,
-          // Watermark
+                  // Watermark
           addWatermark: s.watermark_enabled === true,
+          watermarkText: s.watermark_text || 'ZenClip',
+          watermarkOpacity: s.watermark_opacity ?? 0.5,
+          watermarkPosition: s.watermark_position || 'bottom_right',
+          watermarkSize: s.watermark_size ?? 0.3,
+          watermarkFont: s.watermark_font || 'Poppins-Bold',
         }));
       } catch (e) {
         // Settings load is optional — keep hardcoded defaults
@@ -413,6 +428,79 @@ export function ProcessForm({ onSubmit, isProcessing }: ProcessFormProps) {
           />
           <span className="text-sm">Add Watermark</span>
         </label>
+        {/* Watermark Customization Panel */}
+        {formData.addWatermark && (
+          <div className="ml-6 border rounded-lg p-4 bg-gray-50 space-y-3">
+            <div>
+              <label className="block text-sm font-medium mb-1">Watermark Text</label>
+              <input
+                type="text"
+                value={formData.watermarkText || ''}
+                onChange={(e) => set('watermarkText', e.target.value)}
+                placeholder="ZenClip"
+                className="block w-full border rounded px-3 py-2 text-sm"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium mb-1">Opacity</label>
+                <input
+                  type="range"
+                  min={0.1}
+                  max={1}
+                  step={0.1}
+                  value={formData.watermarkOpacity ?? 0.5}
+                  onChange={(e) => set('watermarkOpacity', parseFloat(e.target.value))}
+                  className="block w-full"
+                />
+                <span className="text-xs text-gray-500">{Math.round((formData.watermarkOpacity ?? 0.5) * 100)}%</span>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Size</label>
+                <input
+                  type="range"
+                  min={0.1}
+                  max={0.6}
+                  step={0.05}
+                  value={formData.watermarkSize ?? 0.3}
+                  onChange={(e) => set('watermarkSize', parseFloat(e.target.value))}
+                  className="block w-full"
+                />
+                <span className="text-xs text-gray-500">{Math.round((formData.watermarkSize ?? 0.3) * 100)}%</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium mb-1">Position</label>
+                <select
+                  value={formData.watermarkPosition || 'bottom_right'}
+                  onChange={(e) => set('watermarkPosition', e.target.value)}
+                  className="block w-full border rounded px-3 py-2 text-sm"
+                >
+                  <option value="top_left">Top Left</option>
+                  <option value="top_right">Top Right</option>
+                  <option value="bottom_left">Bottom Left</option>
+                  <option value="bottom_right">Bottom Right</option>
+                  <option value="center">Center</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Font</label>
+                <select
+                  value={formData.watermarkFont || 'Poppins-Bold'}
+                  onChange={(e) => set('watermarkFont', e.target.value)}
+                  className="block w-full border rounded px-3 py-2 text-sm"
+                >
+                  <option value="Poppins-Bold">Poppins Bold</option>
+                  <option value="Montserrat-Black">Montserrat Black</option>
+                  <option value="Impact">Impact</option>
+                  <option value="Arial-Bold">Arial Bold</option>
+                  <option value="Anton-Regular">Anton</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
         <label className="flex items-center gap-2">
           <input
             type="checkbox"

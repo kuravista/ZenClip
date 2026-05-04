@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import type React from 'react';
+import { useState, useEffect } from 'react';
 
 type SettingsValue = string | number | boolean | null | undefined;
 type SettingsMap = Record<string, SettingsValue>;
@@ -147,6 +148,85 @@ export function SettingsPanel({ onSave }: SettingsPanelProps) {
           <label className="flex items-center gap-2"><input type="checkbox" checked={s.addSubtitlesByDefault !== false} onChange={(e) => handleChange('addSubtitlesByDefault', e.target.checked)} /><span className="text-sm">Add subtitles by default</span></label>
           <label className="flex items-center gap-2"><input type="checkbox" checked={s.addHookByDefault !== false} onChange={(e) => handleChange('addHookByDefault', e.target.checked)} /><span className="text-sm">Add viral hook by default</span></label>
           <label className="flex items-center gap-2"><input type="checkbox" checked={s.randomizeMetadata === true} onChange={(e) => handleChange('randomizeMetadata', e.target.checked)} /><span className="text-sm">Randomize metadata</span></label>
+        </div>
+
+        {/* Watermark Defaults */}
+        <div className="border rounded p-4 space-y-4">
+          <h3 className="font-medium">Watermark Defaults</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Default Text</label>
+              <input
+                type="text"
+                value={ss(s, 'watermark_text', 'ZenClip')}
+                onChange={(e) => handleChange('watermark_text', e.target.value)}
+                placeholder="ZenClip"
+                className="block w-full border rounded px-3 py-2"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Default Font</label>
+              <select
+                value={ss(s, 'watermark_font', 'Poppins-Bold')}
+                onChange={(e) => handleChange('watermark_font', e.target.value)}
+                className="block w-full border rounded px-3 py-2"
+              >
+                <option value="Poppins-Bold">Poppins Bold</option>
+                <option value="Montserrat-Black">Montserrat Black</option>
+                <option value="Impact">Impact</option>
+                <option value="Arial-Bold">Arial Bold</option>
+                <option value="Anton-Regular">Anton</option>
+              </select>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Opacity ({Math.round(sn(s, 'watermark_opacity', 0.5) * 100)}%)</label>
+              <input
+                type="range"
+                min={0.1}
+                max={1}
+                step={0.1}
+                value={sn(s, 'watermark_opacity', 0.5)}
+                onChange={(e) => handleChange('watermark_opacity', parseFloat(e.target.value))}
+                className="block w-full"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">Size ({Math.round(sn(s, 'watermark_size', 0.3) * 100)}%)</label>
+              <input
+                type="range"
+                min={0.1}
+                max={0.6}
+                step={0.05}
+                value={sn(s, 'watermark_size', 0.3)}
+                onChange={(e) => handleChange('watermark_size', parseFloat(e.target.value))}
+                className="block w-full"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Default Position</label>
+            <select
+              value={ss(s, 'watermark_position', 'bottom_right')}
+              onChange={(e) => handleChange('watermark_position', e.target.value)}
+              className="block w-full border rounded px-3 py-2"
+            >
+              <option value="top_left">Top Left</option>
+              <option value="top_right">Top Right</option>
+              <option value="bottom_left">Bottom Left</option>
+              <option value="bottom_right">Bottom Right</option>
+              <option value="center">Center</option>
+            </select>
+          </div>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={s.watermark_enabled === true}
+              onChange={(e) => handleChange('watermark_enabled', e.target.checked)}
+            />
+            <span className="text-sm">Enable watermark by default</span>
+          </label>
         </div>
 
         {/* Save */}
