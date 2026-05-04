@@ -1,6 +1,5 @@
 from moviepy import TextClip, CompositeVideoClip
-import numpy as np
-import re
+
 try:
     from moviepy.video.fx import CrossFadeIn
 except ImportError:
@@ -9,41 +8,30 @@ except ImportError:
 from services.media.subtitle.utils.text import measure_real_height
 from services.media.subtitle.utils.fonts import get_font_path
 
-# Issue #7: Config setup
 MOZI_CONFIG = {
-    'chunk_size': 5,
-    'max_width_ratio': 0.80,
-    'word_spacing_px': 8,
-    'line_gap_px': -10,
-    'min_word_duration_ms': 50
+    "max_width_ratio": 0.80,
+    "word_spacing_px": 8,
+    "min_word_duration_ms": 50,
 }
 
-# Issue #2: Optimized Text Rendering (Single Render)
+
 def _generate_mozi_text_clip(text, config, is_highlight=False):
-    """
-    Optimized: Single render path to avoid duplicate TextClip creation.
-    """
-    
+    """Render a single word as a TextClip (white or green highlighted)."""
+
     font_path = get_font_path(config["font"])
     fontsize = config["fontsize"]
-    
+
     if is_highlight:
-        # Green highlighted state
         color = "#00FF00"
         fontsize = int(fontsize * 1.3)
-        # Stronger stroke for highlight
         stroke_width = max(12, int(config.get("stroke_width", 3) * 2.5))
     else:
-        # Normal white state
         color = config.get("color", "white")
         stroke_width = max(8, int(config.get("stroke_width", 3)))
-    
-    # Add space for proper measurement (prevent clipping of ascenders/descenders)
-    # Convert to upper case as per style
+
     text_upper = text.upper()
-    text_with_padding = f"{text_upper}\n " 
-    
-    # Create clip ONCE
+    text_with_padding = f"{text_upper}\n "
+
     txt = TextClip(
         text=text_with_padding,
         font=font_path,
@@ -51,213 +39,202 @@ def _generate_mozi_text_clip(text, config, is_highlight=False):
         color=color,
         stroke_color=config.get("stroke_color", "black"),
         stroke_width=stroke_width,
-        method="label"
+        method="label",
     )
-    
-    # Measure and crop once
+
     try:
         real_h = measure_real_height(txt, buffer=15)
         if real_h > 0 and real_h < txt.h:
             txt = txt.cropped(y2=real_h)
     except Exception as e:
         print(f"  ⚠️ Height measurement failed: {e}")
-        # Keep original if measurement fails
-    
+
     return txt
+
 
 def create_mozi_subtitles(config, video_clip, phrase_timings, clip_start, clip_end):
     """
-    Optimized Mozi style subtitles with pre-calculated layouts.
-    fixes Issue #4 (Layout Overhead) and Issue #5 (Memory Leaks via improved logic flow)
+    Mozi-style subtitles — single-line per chunk with per-word highlight.
+
+    Each chunk = exactly ONE line of text on screen.
+    Words that don't fit the line width become a new chunk,
+    so the text NEVER splits into 2 rows within the same display.
     """
-    print(f"[INFO] Generating Mozi subtitles for clip {clip_start:.1f}s - {clip_end:.1f}s")
-    
+    print(
+        f"[INFO] Generating Mozi subtitles for clip {clip_start:.1f}s - {clip_end:.1f}s"
+    )
+
     video_w, video_h = video_clip.size
     audio_offset = config.get("audio_offset", 0.0)
-    
-    # 1. Collect words
+    max_line_width = video_w * MOZI_CONFIG["max_width_ratio"]
+    word_spacing = MOZI_CONFIG["word_spacing_px"]
+
+    # Fixed bottom anchor — every chunk's bottom edge sits here
+    anchor_y = int(video_h * (config.get("vertical_position", 75) / 100.0))
+
+    # ── 1. Collect words ──────────────────────────────────────────────
     all_words = []
     for phrase in phrase_timings:
-        p_start = phrase['start']
-        p_end = phrase['end']
-        
+        p_start, p_end = phrase["start"], phrase["end"]
         if p_end < (clip_start - 1.5) or p_start > (clip_end + 1.5):
             continue
-            
-        words = phrase.get('words', [])
+
+        words = phrase.get("words", [])
         if not words:
-            words = [{'text': phrase['text'], 'start': p_start, 'end': p_end}]
-            
+            words = [{"text": phrase["text"], "start": p_start, "end": p_end}]
+
         for w in words:
-            w_start = w['start']
-            w_end = w['end']
-            
-            if w_end < (clip_start - 1.5):
+            if w["end"] < (clip_start - 1.5):
                 continue
-            if w_start > (clip_end + 1.5):
+            if w["start"] > (clip_end + 1.5):
                 continue
-            
-            all_words.append({
-                'text': w['text'],
-                'start': w_start,
-                'end': w_end,
-            })
-            
+            all_words.append({"text": w["text"], "start": w["start"], "end": w["end"]})
+
     if not all_words:
         return []
-        
-    all_words.sort(key=lambda x: x['start'])
-    
-    # 2. Chunking
-    CHUNK_SIZE = MOZI_CONFIG['chunk_size']
-    chunks = [all_words[i:i + CHUNK_SIZE] for i in range(0, len(all_words), CHUNK_SIZE)]
-    
-    subtitle_clips = []
-    
-    for chunk_idx, chunk in enumerate(chunks):
-        if not chunk: continue
-        
-        # Calculate chunk timing
-        chunk_start_abs = chunk[0]['start']
-        chunk_end_abs = chunk[-1]['end']
-        
-        rel_chunk_start = chunk_start_abs - clip_start + audio_offset
-        rel_chunk_end = chunk_end_abs - clip_start + audio_offset
-        rel_chunk_start = max(0, rel_chunk_start)
-        
-        chunk_duration = rel_chunk_end - rel_chunk_start
-        if chunk_duration < 0.1: continue
-        
-        # 3. Pre-render clips (Issue #2 fix included via _generate_mozi_text_clip)
-        word_clips = {} # idx -> {white, green, start_rel, end_rel}
-        
-        for idx, word in enumerate(chunk):
-            white_clip = _generate_mozi_text_clip(word['text'], config, is_highlight=False)
-            green_clip = _generate_mozi_text_clip(word['text'], config, is_highlight=True)
-            
-            w_start_rel = max(0, word['start'] - clip_start + audio_offset - rel_chunk_start)
-            w_end_rel = min(chunk_duration, word['end'] - clip_start + audio_offset - rel_chunk_start)
-            
-            word_clips[idx] = {
-                'white': white_clip,
-                'green': green_clip,
-                'green_h': green_clip.h, # Cache height for layout
-                'start': w_start_rel,
-                'end': w_end_rel
+
+    all_words.sort(key=lambda x: x["start"])
+
+    # ── 2. Pre-render ALL word clips first ────────────────────────────
+    # This lets us measure green_w for auto-sizing chunks.
+    rendered = []
+    for word in all_words:
+        white_clip = _generate_mozi_text_clip(word["text"], config, is_highlight=False)
+        green_clip = _generate_mozi_text_clip(word["text"], config, is_highlight=True)
+        rendered.append(
+            {
+                "text": word["text"],
+                "start": word["start"],
+                "end": word["end"],
+                "white": white_clip,
+                "green": green_clip,
+                "white_w": white_clip.w,
+                "white_h": white_clip.h,
+                "green_w": green_clip.w,
+                "green_h": green_clip.h,
             }
+        )
 
-        # 4. Static Layout Calculation (Issue #4 Fix)
-        # We calculate ONE layout based on the maximum dimensions (green state)
-        # ensuring the text block doesn't jump around.
-        
-        max_line_width = video_w * MOZI_CONFIG['max_width_ratio']
-        word_spacing = MOZI_CONFIG['word_spacing_px']
-        line_gap = MOZI_CONFIG['line_gap_px']
-        
-        # Hardcoded 3/2 split pattern per user preference/style
-        line1_indices = list(range(min(3, len(chunk))))
-        line2_indices = list(range(3, len(chunk)))
-        
-        # Calculate max line heights using GREEN (max) clips
-        line1_height = max([word_clips[i]['green_h'] for i in line1_indices]) if line1_indices else 0
-        line2_height = max([word_clips[i]['green_h'] for i in line2_indices]) if line2_indices else 0
-        
-        total_block_height = line1_height + line2_height + (line_gap if line2_indices else 0)
-        
-        # Vertical centering
-        center_y = int(video_h * (config.get('vertical_position', 75) / 100.0))
-        y_start = center_y - (total_block_height // 2)
-        
-        # Calculate static positions for both states
-        # We center the WHITE version within the slot allocated for the GREEN version?
-        # Or we center the words.
-        # Simple approach: Center the lines based on WHITE width (since that's the resting state)
-        # BUT that causes jumping when it expands.
-        # Better approach: Layout based on WHITE widths, and let GREEN expansion grow outward?
-        # No, Mozi style usually pushes neighbors.
-        # User prompt suggested: "Calculate layout ONCE... using static positions".
-        # Let's derive a static grid.
-        
-        static_positions = {} # idx -> (x, y) for the "Center" of the slot? 
-        # Actually, let's just calculate the layout for each segment effectively but using PRE-CALCULATED rules.
-        # To avoid jumping, we should anchor the layout.
-        
-        # Optimization: Generate clip segments based on time points
-        time_points = set([0, chunk_duration])
-        for idx in word_clips:
-            t = word_clips[idx]
-            if t['start'] > 0: time_points.add(t['start'])
-            if t['end'] < chunk_duration: time_points.add(t['end'])
-        
-        sorted_points = sorted(list(time_points))
+    # ── 3. Auto-size chunks: each chunk = words that fit ONE line ─────
+    chunks = []
+    current_chunk = []
+    current_w = 0
+
+    for item in rendered:
+        slot_w = item["green_w"]
+        spacing = word_spacing if current_chunk else 0
+        needed = spacing + slot_w
+
+        if current_chunk and (current_w + needed > max_line_width):
+            # This word overflows → seal current chunk, start new one
+            chunks.append(current_chunk)
+            current_chunk = [item]
+            current_w = slot_w
+        else:
+            current_chunk.append(item)
+            current_w += needed
+
+    if current_chunk:
+        chunks.append(current_chunk)
+
+    # ── 4. Render each single-line chunk ──────────────────────────────
+    subtitle_clips = []
+
+    for chunk in chunks:
+        if not chunk:
+            continue
+
+        # Timing
+        chunk_start_abs = chunk[0]["start"]
+        chunk_end_abs = chunk[-1]["end"]
+        rel_chunk_start = max(0, chunk_start_abs - clip_start + audio_offset)
+        rel_chunk_end = chunk_end_abs - clip_start + audio_offset
+        chunk_duration = rel_chunk_end - rel_chunk_start
+        if chunk_duration < 0.1:
+            continue
+
+        # Calculate relative start/end for each word within the chunk
+        for item in chunk:
+            item["w_start_rel"] = max(
+                0, item["start"] - clip_start + audio_offset - rel_chunk_start
+            )
+            item["w_end_rel"] = min(
+                chunk_duration,
+                item["end"] - clip_start + audio_offset - rel_chunk_start,
+            )
+
+        # ── Slot layout (single line, bottom-anchored) ────────────────
+        # Line height = tallest GREEN clip (the max possible height)
+        line_h = max(item["green_h"] for item in chunk)
+        total_w = sum(item["green_w"] for item in chunk) + word_spacing * (
+            len(chunk) - 1
+        )
+        start_x = (video_w - total_w) // 2
+
+        # Bottom anchor: bottom edge of line sits at anchor_y
+        line_y = anchor_y - line_h
+
+        # Assign fixed slots
+        fixed_slots = []  # parallel to chunk list
+        curr_x = start_x
+        for item in chunk:
+            fixed_slots.append((curr_x, line_y, item["green_w"], item["green_h"]))
+            curr_x += item["green_w"] + word_spacing
+
+        # ── Time segments ─────────────────────────────────────────────
+        time_points = {0.0, chunk_duration}
+        for item in chunk:
+            if item["w_start_rel"] > 0:
+                time_points.add(item["w_start_rel"])
+            if item["w_end_rel"] < chunk_duration:
+                time_points.add(item["w_end_rel"])
+        sorted_points = sorted(time_points)
+
         chunk_sub_clips = []
-        
-        for i in range(len(sorted_points) - 1):
-            t0 = sorted_points[i]
-            t1 = sorted_points[i+1]
-            dur = t1 - t0
-            if dur < 0.01: continue
-            
-            # Identify active words
-            active_indices = [
-                idx for idx in word_clips 
-                if word_clips[idx]['start'] <= t0 and t1 <= word_clips[idx]['end']
-            ]
-            
-            # --- Layout for this segment ---
-            current_y = y_start
-            segment_clips = []
-            
-            for line_indices_set, line_h in [(line1_indices, line1_height), (line2_indices, line2_height)]:
-                if not line_indices_set: continue
-                
-                # Calculate total width for this specific configuration (some active, some not)
-                current_line_w = 0
-                widths = [] # (w, is_green, clip)
-                
-                for w_idx in line_indices_set:
-                    is_active = w_idx in active_indices
-                    clip = word_clips[w_idx]['green'] if is_active else word_clips[w_idx]['white']
-                    widths.append((clip.w, is_active, clip))
-                    current_line_w += clip.w
-                
-                current_line_w += word_spacing * (len(line_indices_set) - 1)
-                
-                # Center X
-                start_x = (video_w - current_line_w) // 2
-                curr_x = start_x
-                
-                for i_w, w_idx in enumerate(line_indices_set):
-                    w_width, is_active, clip = widths[i_w]
-                    
-                    # Center vertically in the static line height
-                    # This prevents vertical jumping when switching font sizes
-                    y_pos = current_y + (line_h - clip.h) // 2
-                    
-                    # Create sub-clip
-                    final_clip = clip.with_position((curr_x, y_pos)).with_start(t0).with_duration(dur)
-                    
-                    # Add Pop effect if simple linear
-                    # (Skipping complex pop for stability/speed unless requested)
-                    
-                    segment_clips.append(final_clip)
-                    curr_x += w_width + word_spacing
-                
-                current_y += line_h + line_gap
-            
-            chunk_sub_clips.extend(segment_clips)
 
-        # Create Composite for the chunk
+        for seg_i in range(len(sorted_points) - 1):
+            t0 = sorted_points[seg_i]
+            t1 = sorted_points[seg_i + 1]
+            dur = t1 - t0
+            if dur < 0.01:
+                continue
+
+            for idx, item in enumerate(chunk):
+                w_start = item["w_start_rel"]
+
+                # Progressive reveal: skip words that haven't started yet
+                if t1 <= w_start:
+                    continue
+
+                is_active = item["w_start_rel"] <= t0 and t1 <= item["w_end_rel"]
+                clip = item["green"] if is_active else item["white"]
+
+                # Fade-in for newly appeared words
+                if t0 - w_start < 0.08:
+                    opacity = min(1.0, (t1 - w_start) / 0.08)
+                    clip = clip.with_opacity(opacity)
+
+                slot_x, slot_y, slot_w, slot_h = fixed_slots[idx]
+
+                # Centre clip inside its fixed slot
+                x_pos = slot_x + (slot_w - clip.w) // 2
+                y_pos = slot_y + (slot_h - clip.h) // 2
+
+                final_clip = (
+                    clip.with_position((x_pos, y_pos)).with_start(t0).with_duration(dur)
+                )
+                chunk_sub_clips.append(final_clip)
+
+        # Composite
         if chunk_sub_clips:
             comp = CompositeVideoClip(chunk_sub_clips, size=(video_w, video_h))
             comp = comp.with_start(rel_chunk_start).with_duration(chunk_duration)
-            
-            # Fade in the whole chunk
+
             if CrossFadeIn:
                 comp = comp.with_effects([CrossFadeIn(duration=0.1)])
             else:
                 comp = comp.with_opacity(lambda t: min(1.0, t / 0.1))
-                
+
             subtitle_clips.append(comp)
-            
+
     return subtitle_clips

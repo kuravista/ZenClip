@@ -9,10 +9,8 @@ from services.media.subtitle.utils.text import measure_real_height
 from services.media.subtitle.utils.fonts import get_font_path
 
 MOZI_CONFIG = {
-    "chunk_size": 5,
     "max_width_ratio": 0.80,
     "word_spacing_px": 8,
-    "line_gap_px": -10,
     "min_word_duration_ms": 50,
 }
 
@@ -56,16 +54,11 @@ def _generate_mozi_text_clip(text, config, is_highlight=False):
 
 def create_mozi_subtitles(config, video_clip, phrase_timings, clip_start, clip_end):
     """
-    Mozi-style subtitles with STABLE positioning.
+    Mozi-style subtitles — single-line per chunk with per-word highlight.
 
-    Key design decisions to prevent jumping:
-      1. FIXED ANCHOR: All chunks anchor to the same bottom-Y baseline,
-         so 1-line and 2-line chunks share the same bottom position.
-      2. DYNAMIC WRAP: Line breaks are computed from actual pixel widths,
-         not a hardcoded 3/2 split.
-      3. SLOT-BASED LAYOUT: Each word gets a fixed slot sized for the
-         GREEN (highlight) state.  The actual clip (white or green) is
-         centred inside that slot, so switching never shifts neighbours.
+    Each chunk = exactly ONE line of text on screen.
+    Words that don't fit the line width become a new chunk,
+    so the text NEVER splits into 2 rows within the same display.
     """
     print(
         f"[INFO] Generating Mozi subtitles for clip {clip_start:.1f}s - {clip_end:.1f}s"
@@ -73,12 +66,10 @@ def create_mozi_subtitles(config, video_clip, phrase_timings, clip_start, clip_e
 
     video_w, video_h = video_clip.size
     audio_offset = config.get("audio_offset", 0.0)
-
-    # ── Layout constants (same for every chunk) ───────────────────────
     max_line_width = video_w * MOZI_CONFIG["max_width_ratio"]
     word_spacing = MOZI_CONFIG["word_spacing_px"]
-    line_gap = MOZI_CONFIG["line_gap_px"]
-    # Fixed anchor: bottom edge of text block always sits here
+
+    # Fixed bottom anchor — every chunk's bottom edge sits here
     anchor_y = int(video_h * (config.get("vertical_position", 75) / 100.0))
 
     # ── 1. Collect words ──────────────────────────────────────────────
@@ -104,12 +95,49 @@ def create_mozi_subtitles(config, video_clip, phrase_timings, clip_start, clip_e
 
     all_words.sort(key=lambda x: x["start"])
 
-    # ── 2. Chunking ───────────────────────────────────────────────────
-    CHUNK_SIZE = MOZI_CONFIG["chunk_size"]
-    chunks = [
-        all_words[i : i + CHUNK_SIZE] for i in range(0, len(all_words), CHUNK_SIZE)
-    ]
+    # ── 2. Pre-render ALL word clips first ────────────────────────────
+    # This lets us measure green_w for auto-sizing chunks.
+    rendered = []
+    for word in all_words:
+        white_clip = _generate_mozi_text_clip(word["text"], config, is_highlight=False)
+        green_clip = _generate_mozi_text_clip(word["text"], config, is_highlight=True)
+        rendered.append(
+            {
+                "text": word["text"],
+                "start": word["start"],
+                "end": word["end"],
+                "white": white_clip,
+                "green": green_clip,
+                "white_w": white_clip.w,
+                "white_h": white_clip.h,
+                "green_w": green_clip.w,
+                "green_h": green_clip.h,
+            }
+        )
 
+    # ── 3. Auto-size chunks: each chunk = words that fit ONE line ─────
+    chunks = []
+    current_chunk = []
+    current_w = 0
+
+    for item in rendered:
+        slot_w = item["green_w"]
+        spacing = word_spacing if current_chunk else 0
+        needed = spacing + slot_w
+
+        if current_chunk and (current_w + needed > max_line_width):
+            # This word overflows → seal current chunk, start new one
+            chunks.append(current_chunk)
+            current_chunk = [item]
+            current_w = slot_w
+        else:
+            current_chunk.append(item)
+            current_w += needed
+
+    if current_chunk:
+        chunks.append(current_chunk)
+
+    # ── 4. Render each single-line chunk ──────────────────────────────
     subtitle_clips = []
 
     for chunk in chunks:
@@ -125,88 +153,41 @@ def create_mozi_subtitles(config, video_clip, phrase_timings, clip_start, clip_e
         if chunk_duration < 0.1:
             continue
 
-        # ── 3. Pre-render white + green clips ─────────────────────────
-        word_clips = {}
-        for idx, word in enumerate(chunk):
-            white_clip = _generate_mozi_text_clip(
-                word["text"], config, is_highlight=False
+        # Calculate relative start/end for each word within the chunk
+        for item in chunk:
+            item["w_start_rel"] = max(
+                0, item["start"] - clip_start + audio_offset - rel_chunk_start
             )
-            green_clip = _generate_mozi_text_clip(
-                word["text"], config, is_highlight=True
-            )
-
-            w_start_rel = max(
-                0, word["start"] - clip_start + audio_offset - rel_chunk_start
-            )
-            w_end_rel = min(
+            item["w_end_rel"] = min(
                 chunk_duration,
-                word["end"] - clip_start + audio_offset - rel_chunk_start,
+                item["end"] - clip_start + audio_offset - rel_chunk_start,
             )
 
-            word_clips[idx] = {
-                "white": white_clip,
-                "green": green_clip,
-                "white_w": white_clip.w,
-                "white_h": white_clip.h,
-                "green_w": green_clip.w,
-                "green_h": green_clip.h,
-                "start": w_start_rel,
-                "end": w_end_rel,
-            }
+        # ── Slot layout (single line, bottom-anchored) ────────────────
+        # Line height = tallest GREEN clip (the max possible height)
+        line_h = max(item["green_h"] for item in chunk)
+        total_w = sum(item["green_w"] for item in chunk) + word_spacing * (
+            len(chunk) - 1
+        )
+        start_x = (video_w - total_w) // 2
 
-        # ── 4. Dynamic line wrap (pixel-based, replaces hardcoded 3/2) ─
-        # Use GREEN dimensions for slot allocation so highlight never overflows.
-        lines = []  # list[list[int]]  — each inner list is word indices
-        current_line = []
-        current_line_w = 0
+        # Bottom anchor: bottom edge of line sits at anchor_y
+        line_y = anchor_y - line_h
 
-        for idx in range(len(chunk)):
-            slot_w = word_clips[idx]["green_w"]
-            spacing = word_spacing if current_line else 0
-            if current_line and (current_line_w + spacing + slot_w > max_line_width):
-                lines.append(current_line)
-                current_line = [idx]
-                current_line_w = slot_w
-            else:
-                current_line.append(idx)
-                current_line_w += spacing + slot_w
-        if current_line:
-            lines.append(current_line)
+        # Assign fixed slots
+        fixed_slots = []  # parallel to chunk list
+        curr_x = start_x
+        for item in chunk:
+            fixed_slots.append((curr_x, line_y, item["green_w"], item["green_h"]))
+            curr_x += item["green_w"] + word_spacing
 
-        # ── 5. Slot-based layout (FIXED positions) ────────────────────
-        # Line height = tallest GREEN clip in that line
-        line_heights = [max(word_clips[i]["green_h"] for i in line) for line in lines]
-        total_block_h = sum(line_heights) + line_gap * max(0, len(lines) - 1)
-
-        # Anchor BOTTOM of block at anchor_y  →  stable across chunks
-        current_y = anchor_y - total_block_h
-
-        fixed_slots = {}  # idx → (slot_x, slot_y, slot_w, slot_h)
-        for line_idx, line in enumerate(lines):
-            line_h = line_heights[line_idx]
-            # Total line width based on GREEN (max) slots
-            total_w = sum(word_clips[i]["green_w"] for i in line) + word_spacing * (
-                len(line) - 1
-            )
-            start_x = (video_w - total_w) // 2
-
-            curr_x = start_x
-            for idx in line:
-                gw = word_clips[idx]["green_w"]
-                gh = word_clips[idx]["green_h"]
-                fixed_slots[idx] = (curr_x, current_y, gw, gh)
-                curr_x += gw + word_spacing
-
-            current_y += line_h + line_gap
-
-        # ── 6. Generate time-segment clips using fixed slots ──────────
+        # ── Time segments ─────────────────────────────────────────────
         time_points = {0.0, chunk_duration}
-        for idx in word_clips:
-            t = word_clips[idx]
-            if t["start"] > 0:
-                time_points.add(t["start"])
-            if t["end"] < chunk_duration:
-                time_points.add(t["end"])
+        for item in chunk:
+            if item["w_start_rel"] > 0:
+                time_points.add(item["w_start_rel"])
+            if item["w_end_rel"] < chunk_duration:
+                time_points.add(item["w_end_rel"])
         sorted_points = sorted(time_points)
 
         chunk_sub_clips = []
@@ -218,22 +199,24 @@ def create_mozi_subtitles(config, video_clip, phrase_timings, clip_start, clip_e
             if dur < 0.01:
                 continue
 
-            active_indices = {
-                idx
-                for idx in word_clips
-                if word_clips[idx]["start"] <= t0 and t1 <= word_clips[idx]["end"]
-            }
+            for idx, item in enumerate(chunk):
+                w_start = item["w_start_rel"]
 
-            for idx in range(len(chunk)):
-                if idx not in fixed_slots:
+                # Progressive reveal: skip words that haven't started yet
+                if t1 <= w_start:
                     continue
-                is_active = idx in active_indices
-                clip = (
-                    word_clips[idx]["green"] if is_active else word_clips[idx]["white"]
-                )
+
+                is_active = item["w_start_rel"] <= t0 and t1 <= item["w_end_rel"]
+                clip = item["green"] if is_active else item["white"]
+
+                # Fade-in for newly appeared words
+                if t0 - w_start < 0.08:
+                    opacity = min(1.0, (t1 - w_start) / 0.08)
+                    clip = clip.with_opacity(opacity)
+
                 slot_x, slot_y, slot_w, slot_h = fixed_slots[idx]
 
-                # Centre actual clip inside its fixed slot
+                # Centre clip inside its fixed slot
                 x_pos = slot_x + (slot_w - clip.w) // 2
                 y_pos = slot_y + (slot_h - clip.h) // 2
 
@@ -242,7 +225,7 @@ def create_mozi_subtitles(config, video_clip, phrase_timings, clip_start, clip_e
                 )
                 chunk_sub_clips.append(final_clip)
 
-        # ── 7. Composite the chunk ────────────────────────────────────
+        # Composite
         if chunk_sub_clips:
             comp = CompositeVideoClip(chunk_sub_clips, size=(video_w, video_h))
             comp = comp.with_start(rel_chunk_start).with_duration(chunk_duration)
