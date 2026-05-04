@@ -541,7 +541,7 @@ def generate_mozi_events(timings, clip_start, clip_end, style_config):
     #    This guarantees single line even when active word is 1.5x
     #    Short words ("I", "to", "do") can fit 5 in a line
     #    Long words ("incredible") need smaller chunks
-    MAX_CHARS = 22
+    MAX_CHARS = 30
     MAX_WORDS = 5
     chunks = []
     current_chunk = []
